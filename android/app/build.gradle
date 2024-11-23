@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId "com.gstory.fun_reader"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19  // 将 minSdkVersion 设置为 19 或更高
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
