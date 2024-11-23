@@ -1,0 +1,43 @@
+name: Flutter Build and Release
+
+on:
+  push:
+    branches:
+      - master  # 只在推送到 main 分支时触发
+  pull_request:
+    branches:
+      - master  # 拉取请求触发时
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 在最新的 Ubuntu 环境中运行
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # 检出代码
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.0'  # 设置 Flutter 版本
+
+    - name: Install dependencies
+      run: flutter pub get  # 安装项目依赖
+
+    - name: Build APK for Android
+      run: flutter build apk --release  # 构建 Android APK
+
+    - name: Build App for iOS
+      run: flutter build ios --release  # 构建 iOS 应用
+
+    - name: Upload release APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk  # 上传 APK
+
+    - name: Upload iOS build (optional)
+      uses: actions/upload-artifact@v3
+      with:
+        name: ios-build
+        path: build/ios/iphoneos/Runner.app  # 上传 iOS 应用包
